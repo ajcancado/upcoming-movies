@@ -27,13 +27,40 @@ class MovieDetailViewModel {
         return genresString
     }
     
-    func getGenreIdName(_ id: Int) -> String{
+    func c(_ id: Int) -> String{
         
         if let genre = self.genres.first(where: {$0.id == id}) {
             return genre.name
         }
         
         return Constants.Messages.empty
+    }
+    
+    func numberOfSections() -> Int {
+        return 2
+    }
+    
+    func numberOfItemsInSection(section: Int) -> Int{
+        
+        if section == 1 {
+            return 3
+        }
+        
+        return 1
+    }
+    
+    func heightOfItemsInSection(at indexPath :IndexPath) -> CGFloat{
+        
+        if indexPath.section == 0 {
+            return 250
+        }
+        
+        return 44
+    }
+    
+    func getGenres() -> String {
+        
+        return movie.assembleGenreStringFrom(genres)
     }
     
 }

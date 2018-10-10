@@ -51,4 +51,18 @@ struct Movie: Codable {
         return Constants.API.imageURL + self.backdropPath!
     }
     
+    func assembleGenreStringFrom(_ genres: [Genre]) -> String {
+        
+        var genresString: [String] = []
+        
+        genreIds.forEach { genreId in
+            
+            if let genre = genres.first(where: {$0.id == genreId}) {
+                genresString.append(genre.name)
+            }
+        }
+        
+        return genresString.joined(separator:", ")
+    }
+    
 }

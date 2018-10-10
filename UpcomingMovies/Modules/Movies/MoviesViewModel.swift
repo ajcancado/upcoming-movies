@@ -90,23 +90,11 @@ class MoviesViewModel {
     func getMovie(at indexPath: IndexPath) -> Movie {
         return movies[indexPath.row]
     }
-
     
     func getGenres(at indexPath: IndexPath) -> String {
         
         let movie = movies[indexPath.row]
         
-        var genresString: [String] = []
-        
-        movie.genreIds.forEach { genreId in
-            
-            if let genre = self.genres.first(where: {$0.id == genreId}) {
-                genresString.append(genre.name)
-            }
-        }
-        
-        return genresString.description
+        return movie.assembleGenreStringFrom(genres)
     }
 }
-
-

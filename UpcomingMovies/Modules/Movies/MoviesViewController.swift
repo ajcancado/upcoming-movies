@@ -16,7 +16,7 @@ class MoviesViewController: UIViewController {
         
     @IBOutlet weak var tableView: UITableView!
     
-    let searchController = UISearchController(searchResultsController: nil)
+    var searchController: UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,7 @@ class MoviesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationItem.title = Constants.Messages.gamesTitle
+        self.navigationItem.title = Constants.Messages.moviesTitle
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,6 +50,8 @@ class MoviesViewController: UIViewController {
     
     func setupSearchController() {
         
+        searchController = UISearchController(searchResultsController: nil)
+    
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
@@ -92,13 +94,11 @@ class MoviesViewController: UIViewController {
                 }
             }
         }
-    
     }
     
     func fetchData() {
         
         viewModel.fetchGenres {
-            
             self.viewModel.fetchMovies {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -112,11 +112,11 @@ class MoviesViewController: UIViewController {
     }
     
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        
         viewModel.filteredMovies = viewModel.movies.filter({( movie: Movie) -> Bool in
             return movie.title.lowercased().contains(searchText.lowercased())
         })
@@ -134,7 +134,13 @@ class MoviesViewController: UIViewController {
 
             let indexPath = tableView.indexPathForSelectedRow
             
-            let movie = viewModel.getMovie(at: indexPath!)
+            let movie: Movie
+            
+            if isFiltering() {
+                movie = viewModel.filteredMovies[indexPath!.row]
+            } else {
+                movie = viewModel.getMovie(at: indexPath!)
+            }
 
             svc.viewModel.movie = movie
             svc.viewModel.genres = viewModel.genres
@@ -176,11 +182,11 @@ extension MoviesViewController : UITableViewDataSource {
                               progressBlock: nil,
                               completionHandler: nil)
         
-        cell.movieTitleLabel.text = "#\(indexPath.row+1) - \(movie.title.capitalized)"
+        cell.movieTitleLabel.text = movie.title.capitalized
         
         cell.movieGenreLabel.text = viewModel.getGenres(at: indexPath)
         
-        cell.movieReleaseDateLabel.text = movie.releaseDate.toDateFrom(from: Constants.date.input, to: Constants.date.output)
+        cell.movieReleaseDateLabel.text = movie.releaseDate
         
         return cell
     }
@@ -225,7 +231,6 @@ extension MoviesViewController: UIViewControllerPreviewingDelegate {
         movieDetailViewController.viewModel.movie = viewModel.getMovie(at: indexPath)
         
         return movieDetailViewController
-        
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
@@ -235,10 +240,9 @@ extension MoviesViewController: UIViewControllerPreviewingDelegate {
 }
 
 extension MoviesViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
+    
     func updateSearchResults(for searchController: UISearchController) {
         
         filterContentForSearchText(searchController.searchBar.text!)
-        
     }
 }

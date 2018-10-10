@@ -38,6 +38,12 @@ struct Constants {
         static let segueToMovieDetail = "segueToMovieDetail"
     }
     
+    struct CellIds{
+        
+        static let defaultCellId = "RightDetailCellID"
+        static let imageCellId = "ImageCellID"
+    }
+    
     struct Messages {
         
         static let empty = ""
@@ -48,7 +54,7 @@ struct Constants {
         
         static let pullToRefresh = "Pull to refresh"
         
-        static let gamesTitle = "Upcoming Movies"
+        static let moviesTitle = "Up! Movies"
     
         static let defaultTile = "Up! Movies"
         
@@ -61,25 +67,4 @@ struct Constants {
         static let output = "YYYY-MM-dd"
     }
     
-    static let totalItem: CGFloat = 20
-    
-    static let column: CGFloat = 3
-    
-    static let minLineSpacing: CGFloat = 1.0
-    static let minItemSpacing: CGFloat = 1.0
-    
-    static let offset: CGFloat = 1.0 // TODO: for each side, define its offset
-    
-    static func getItemWidth(boundWidth: CGFloat) -> CGFloat {
-        
-        // totalCellWidth = (collectionview width or tableview width) - (left offset + right offset) - (total space x space width)
-        let totalWidth = boundWidth - (offset + offset) - ((column - 1) * minItemSpacing)
-        
-        return totalWidth / column
-    }
-    
-}
-
-extension Notification.Name {
-    static let saveGames = Notification.Name("save_games")
 }

@@ -176,11 +176,16 @@ extension MoviesViewController : UITableViewDataSource {
             movie = viewModel.getMovie(at: indexPath)
         }
         
-        cell.moviePosterImage.kf.setImage(with: URL(string: movie.assemblePosterUrl()),
-                              placeholder: nil,
-                              options: [.transition(.fade(1))],
-                              progressBlock: nil,
-                              completionHandler: nil)
+        if let posterImage = movie.assemblePosterUrl() {
+        
+            cell.moviePosterImage.kf.setImage(with: URL(string: posterImage),
+                                              placeholder: nil,
+                                              options: [.transition(.fade(1))],
+                                              progressBlock: nil,
+                                              completionHandler: nil)
+            
+        }
+        
         
         cell.movieTitleLabel.text = movie.title.capitalized
         

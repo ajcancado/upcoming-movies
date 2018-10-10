@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieDetailViewController: UIViewController {
-
+    
     let viewModel = MovieDetailViewModel()
     
     @IBOutlet weak var tableView: UITableView!
@@ -58,13 +58,14 @@ extension MovieDetailViewController: UITableViewDataSource {
             
             let imageView = cell.viewWithTag(1) as! UIImageView
             
-            let posterUrl = URL(string: self.viewModel.movie.assemblePosterUrl())
-            
-            imageView.kf.setImage(with: posterUrl,
-                                  placeholder: nil,
-                                  options: [.transition(.fade(1))],
-                                  progressBlock: nil,
-                                  completionHandler: nil)
+            if let posterImage = self.viewModel.movie.assemblePosterUrl() {
+                
+                imageView.kf.setImage(with: URL(string: posterImage),
+                                                  placeholder: nil,
+                                                  options: [.transition(.fade(1))],
+                                                  progressBlock: nil,
+                                                  completionHandler: nil)
+            }
             
             return cell
             

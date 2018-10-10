@@ -42,13 +42,17 @@ struct Movie: Codable {
         case releaseDate = "release_date"
     }
     
-    func assemblePosterUrl() -> String {
+    func assemblePosterUrl() -> String? {
         
         if let poster = self.posterPath {
             return Constants.API.imageURL + poster
         }
         
-        return Constants.API.imageURL + self.backdropPath!
+        if let backdrop = self.backdropPath {
+            return Constants.API.imageURL + backdrop
+        }
+        
+        return nil
     }
     
     func assembleGenreStringFrom(_ genres: [Genre]) -> String {

@@ -62,7 +62,7 @@
         <!--Movie Detail View Controller-->
         <scene sceneID="Dkv-ds-yPH">
             <objects>
-                <viewController storyboardIdentifier="GameDetailID" id="Jv2-Ga-4m1" customClass="MovieDetailViewController" customModule="UpcomingMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieDetailID" id="Jv2-Ga-4m1" customClass="MovieDetailViewController" customModule="UpcomingMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VEM-ke-YyE"/>
                         <viewControllerLayoutGuide type="bottom" id="KFI-IQ-m6I"/>

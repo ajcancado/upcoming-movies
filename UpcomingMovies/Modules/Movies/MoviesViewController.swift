@@ -228,7 +228,16 @@ extension MoviesViewController: UIViewControllerPreviewingDelegate {
         
         let movieDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailID") as! MovieDetailViewController
 
-        movieDetailViewController.viewModel.movie = viewModel.getMovie(at: indexPath)
+        let movie: Movie
+        
+        if isFiltering() {
+            movie = viewModel.filteredMovies[indexPath.row]
+        } else {
+            movie = viewModel.getMovie(at: indexPath)
+        }
+        
+        movieDetailViewController.viewModel.movie = movie
+        movieDetailViewController.viewModel.genres = viewModel.genres
         
         return movieDetailViewController
     }
